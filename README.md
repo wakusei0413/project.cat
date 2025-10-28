@@ -4,7 +4,7 @@ A cross-platform calculator application built with Flutter, featuring Material 3
 
 [![Windows Release](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/windows-release.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/windows-release.yml)
 [![License](https://img.shields.io/badge/license-Private-blue.svg)](LICENSE)
-[![Flutter](https://img.shields.io/badge/Flutter-3.35.7-02569B?logo=flutter)](https://flutter.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.24.3-02569B?logo=flutter)](https://flutter.dev)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%201803%2B-0078D6?logo=windows)](https://github.com/YOUR_USERNAME/YOUR_REPO/releases)
 
 ## 📥 Download
@@ -48,8 +48,8 @@ lib/
 
 ### Prerequisites
 
-- Flutter SDK (3.35.7 or higher)
-- Dart SDK (3.9.2 or higher)
+- Flutter SDK (3.24.3 or higher)
+- Dart SDK (3.5.0 or higher)
 - Platform-specific requirements:
   - **Android**: Android Studio or Android SDK
   - **iOS**: Xcode (macOS only)
