@@ -129,6 +129,42 @@ flutter build windows
 flutter build linux
 ```
 
+### 编译 Android 应用程序
+
+1. 确保已经安装 [Android Studio](https://developer.android.com/studio) 或 Android SDK，并在终端配置好 `ANDROID_HOME` 环境变量。
+2. 连接真机或启动 Android 模拟器，执行调试版编译与运行：
+   ```bash
+   flutter run -d android
+   ```
+3. 生成正式发布用的 APK：
+   ```bash
+   flutter build apk --release
+   ```
+   编译完成后，APK 位于 `build/app/outputs/flutter-apk/app-release.apk`。
+4. 如需上传到 Google Play，请生成 App Bundle：
+   ```bash
+   flutter build appbundle --release
+   ```
+   输出位于 `build/app/outputs/bundle/release/app-release.aab`。
+5. 如果需要自定义签名，请在 `android/key.properties` 中配置签名信息，并在 `android/app/build.gradle.kts` 中启用对应的 `signingConfig`。
+
+### 编译 Windows 应用程序
+
+1. 使用命令启用桌面端支持（首次执行即可）：
+   ```bash
+   flutter config --enable-windows-desktop
+   ```
+2. 确保 Windows 上已安装 Visual Studio（包含“使用 C++ 的桌面开发”工作负载）。
+3. 在 Windows 环境中执行以下命令生成可执行文件：
+   ```bash
+   flutter build windows --release
+   ```
+4. 构建完成后，发布产物位于 `build/windows/x64/runner/Release/` 目录，其中包含可直接分发的 `project_cat.exe` 及依赖文件。
+5. 若需调试版运行，可使用：
+   ```bash
+   flutter run -d windows
+   ```
+
 ## Development
 
 ### Code Quality
