@@ -2,6 +2,19 @@
 
 A cross-platform calculator application built with Flutter, featuring Material 3 design and clean architecture.
 
+[![Windows Release](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/windows-release.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/windows-release.yml)
+[![License](https://img.shields.io/badge/license-Private-blue.svg)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-3.35.7-02569B?logo=flutter)](https://flutter.dev)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%201803%2B-0078D6?logo=windows)](https://github.com/YOUR_USERNAME/YOUR_REPO/releases)
+
+## 📥 Download
+
+**Latest Windows Portable Release**: [Download from Releases](https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest)
+
+- 💾 Portable ZIP - No installation required
+- ✅ Windows 10 1803+ / Windows 11
+- 📦 Self-contained - Run from anywhere
+
 ## Features
 
 - 🎨 Material 3 Design with light and dark theme support
@@ -164,6 +177,61 @@ flutter build linux
    ```bash
    flutter run -d windows
    ```
+
+### Windows 便携版自动发布
+
+本项目配置了 GitHub Actions 自动构建和发布 Windows 便携版本（支持 Windows 10 1803 及更高版本）。
+
+#### 自动发布（推荐）
+
+1. **通过 Git Tag 触发发布**：
+   ```bash
+   # 创建版本标签
+   git tag -a v1.0.0 -m "Release version 1.0.0"
+   
+   # 推送标签到 GitHub
+   git push origin v1.0.0
+   ```
+   推送标签后，GitHub Actions 将自动：
+   - 编译 Windows Release 版本
+   - 打包成便携 ZIP 文件
+   - 创建 GitHub Release
+   - 上传发布包
+
+2. **手动触发发布**：
+   - 访问 GitHub 仓库的 Actions 页面
+   - 选择 "Windows Portable Release" 工作流
+   - 点击 "Run workflow"
+   - 输入版本号（例如：v1.0.0）
+   - 点击运行
+
+#### 手动本地构建便携版
+
+如果需要在本地手动创建便携版：
+
+```bash
+# 1. 编译 Release 版本
+flutter build windows --release
+
+# 2. 进入输出目录
+cd build/windows/x64/runner/Release
+
+# 3. 创建便携包目录
+mkdir project_cat_portable
+cp -r * project_cat_portable/
+
+# 4. 创建 ZIP 压缩包
+# Windows: 使用 7-Zip 或其他压缩工具
+# Linux/Mac: zip -r project_cat_portable.zip project_cat_portable/
+```
+
+#### 系统要求
+
+Windows 便携版支持：
+- **最低系统**：Windows 10 1803 (April 2018 Update)
+- **推荐系统**：Windows 10 21H2 或 Windows 11
+- **架构**：64-bit (x64)
+- **无需安装**：直接解压运行，无需管理员权限
 
 ## Development
 
