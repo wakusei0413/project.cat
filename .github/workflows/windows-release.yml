@@ -1,0 +1,155 @@
+name: Windows Portable Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: 'stable'
+          cache: true
+      
+      - name: Enable Windows Desktop
+        run: flutter config --enable-windows-desktop
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Build Windows Release
+        run: flutter build windows --release
+      
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create portable package
+        shell: bash
+        run: |
+          cd build/windows/x64/runner/Release
+          
+          # Create a portable directory structure
+          mkdir -p project_cat_portable
+          
+          # Copy all necessary files
+          cp -r * project_cat_portable/ 2>/dev/null || true
+          
+          # Remove the temporary directory from the copy
+          rm -rf project_cat_portable/project_cat_portable 2>/dev/null || true
+          
+          # Create README for portable version
+          cat > project_cat_portable/README.txt << 'EOF'
+          Project Cat Calculator - Windows Portable Edition
+          ==================================================
+          
+          System Requirements:
+          - Windows 10 1803 or higher
+          - 64-bit Windows operating system
+          
+          How to Run:
+          1. Extract all files to a folder
+          2. Double-click project_cat.exe to launch the application
+          3. No installation required - all files are self-contained
+          
+          Features:
+          - Material 3 Design with light and dark theme support
+          - Cross-platform calculator application
+          - Mathematical expression evaluation
+          - Clean and modern user interface
+          
+          For more information, visit:
+          https://github.com/${{ github.repository }}
+          
+          Version: ${{ steps.version.outputs.version }}
+          Build Date: $(date)
+          EOF
+          
+          # Create the ZIP file
+          7z a -tzip project_cat_windows_portable_${{ steps.version.outputs.version }}.zip project_cat_portable/
+          
+          # Move ZIP to a location we can access
+          mv project_cat_windows_portable_${{ steps.version.outputs.version }}.zip ../../../../../
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-portable
+          path: build/project_cat_windows_portable_${{ steps.version.outputs.version }}.zip
+          retention-days: 7
+      
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Project Cat Calculator ${{ steps.version.outputs.version }}
+          body: |
+            ## Project Cat Calculator - Windows Portable Release
+            
+            ### 📦 Windows Portable Edition
+            
+            **System Requirements:**
+            - Windows 10 1803 or higher
+            - 64-bit Windows operating system
+            
+            **Installation:**
+            1. Download the ZIP file below
+            2. Extract to any folder
+            3. Run `project_cat.exe`
+            4. No installation or admin rights required!
+            
+            ### Features
+            - 🎨 Material 3 Design with light and dark themes
+            - 🧮 Advanced calculator with mathematical expression evaluation
+            - 💾 Portable - runs from any folder
+            - 🚀 No installation required
+            
+            ### Download
+            
+            Choose the appropriate package for your system:
+            
+            | Platform | Package | Notes |
+            |----------|---------|-------|
+            | Windows 10/11 | `project_cat_windows_portable_${{ steps.version.outputs.version }}.zip` | Portable, no installation required |
+            
+            ### Changelog
+            
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+            
+            ---
+            
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/...
+          draft: false
+          prerelease: false
+          files: |
+            build/project_cat_windows_portable_${{ steps.version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update release notes
+        run: |
+          echo "✅ Release created successfully!"
+          echo "📦 Windows Portable package uploaded"
+          echo "🔗 Release URL: ${{ steps.create_release.outputs.url }}"
