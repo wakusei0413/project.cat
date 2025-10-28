@@ -95,8 +95,8 @@ jobs:
           # Create the ZIP file
           7z a -tzip project_cat_windows_portable_${{ steps.version.outputs.version }}.zip project_cat_portable/
           
-          # Move ZIP to a location we can access
-          mv project_cat_windows_portable_${{ steps.version.outputs.version }}.zip ../../../../../
+          # Move ZIP to build directory (4 levels up from Release to build/)
+          mv project_cat_windows_portable_${{ steps.version.outputs.version }}.zip ../../../../
       
       - name: Verify package creation
         shell: bash
