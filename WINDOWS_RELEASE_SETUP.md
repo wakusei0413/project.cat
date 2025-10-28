@@ -131,7 +131,7 @@ Windows 便携版支持：
 ### 构建步骤
 
 1. **检出代码**: 从 Git 仓库获取最新代码
-2. **设置 Flutter**: 安装 Flutter SDK 3.35.7
+2. **设置 Flutter**: 安装 Flutter SDK 3.24.3
 3. **启用 Windows 桌面**: 配置 Flutter Windows 支持
 4. **安装依赖**: 运行 `flutter pub get`
 5. **构建 Windows 版本**: 编译 Release 版本
@@ -217,7 +217,7 @@ on:
 - name: Setup Flutter
   uses: subosito/flutter-action@v2
   with:
-    flutter-version: '3.35.7'  # 修改这里
+    flutter-version: '3.24.3'  # 修改这里
     channel: 'stable'
 ```
 
@@ -337,4 +337,4 @@ Windows 便携版自动发布配置已完成！
 **配置完成日期**: 2024
 **配置状态**: ✅ 就绪
 **支持系统**: Windows 10 1803+, Windows 11
-**Flutter 版本**: 3.35.7
+**Flutter 版本**: 3.24.3
