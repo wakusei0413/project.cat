@@ -59,6 +59,9 @@ jobs:
           # Remove the temporary directory from the copy
           rm -rf project_cat_portable/project_cat_portable 2>/dev/null || true
           
+          # Remove any broken references or non-existent files (like Alpha.zip)
+          rm -f project_cat_portable/Alpha.zip 2>/dev/null || true
+          
           # Create README for portable version
           cat > project_cat_portable/README.txt << 'EOF'
           Project Cat Calculator - Windows Portable Edition
