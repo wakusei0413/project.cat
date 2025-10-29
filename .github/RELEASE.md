@@ -25,7 +25,7 @@ git push origin v1.0.0
 
 ### 方式 2：手动触发工作流
 
-如果你想在不创建标签的情况下构建：
+如果你想在不预先创建标签的情况下构建和发布：
 
 1. 访问 GitHub 仓库的 Actions 页面
 2. 在左侧选择 "Windows Portable Release" 工作流
@@ -33,6 +33,8 @@ git push origin v1.0.0
 4. 输入版本号（例如：v1.0.0）
 5. 选择分支（通常是 main 或 master）
 6. 点击 "Run workflow" 开始构建
+
+**注意**：手动触发工作流也会创建 GitHub Release 和相应的标签。
 
 ## 发布流程详情
 
@@ -49,9 +51,9 @@ GitHub Actions 工作流会自动执行以下步骤：
    - 使用 7-Zip 创建 ZIP 压缩包
 7. **上传构建产物**：保存到 GitHub Artifacts（保留 7 天）
 8. **创建 GitHub Release**：
-   - 创建新的 Release 标签
+   - 创建新的 Release（如果标签不存在则自动创建）
    - 生成 Release 说明
-   - 上传 ZIP 文件
+   - 上传 ZIP 文件到 Release
 
 ## 版本号规范
 

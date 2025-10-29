@@ -117,7 +117,6 @@ jobs:
           retention-days: 7
       
       - name: Verify file exists before release
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
           echo "Final verification before creating release..."
@@ -134,7 +133,6 @@ jobs:
           echo "✅ Package verified for release!"
       
       - name: Create Release
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
@@ -183,16 +181,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Update release notes
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      - name: Release summary
         run: |
           echo "✅ Release created successfully!"
           echo "📦 Windows Portable package uploaded"
           echo "🔗 Release URL: ${{ steps.create_release.outputs.url }}"
-      
-      - name: Workflow dispatch summary
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          echo "✅ Build completed successfully!"
-          echo "📦 Windows Portable package created"
-          echo "ℹ️  This was a manual build. To create a release, push a tag."
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "ℹ️  This was a manual workflow dispatch build."
+          else
+            echo "ℹ️  This was triggered by tag push: ${{ github.ref }}"
+          fi
