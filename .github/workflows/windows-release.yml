@@ -182,6 +182,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Release summary
+        shell: bash
         run: |
           echo "✅ Release created successfully!"
           echo "📦 Windows Portable package uploaded"
